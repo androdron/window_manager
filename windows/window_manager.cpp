@@ -835,10 +835,8 @@ void WindowManager::SetAlwaysOnTop(const flutter::EncodableMap& args) {
       std::get<bool>(args.at(flutter::EncodableValue("isAlwaysOnTop")));
   SetWindowPos(GetMainWindow(), isAlwaysOnTop ? HWND_TOPMOST : HWND_NOTOPMOST,
                0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-  // HWND mainWindow = GetMainWindow();
-
-    ::SetWindowLong(GetMainWindow(), GetWindowLong(GetMainWindow(), GWL_STYLE), GetWindowLong(GetMainWindow(), GWL_EXSTYLE) | WS_EX_NOACTIVATE );
-  
+  HWND mainWindow = GetMainWindow();
+  ::SetWindowLong(mainWindow, GetWindowLong(mainWindow, GWL_STYLE), GetWindowLong(mainWindow, GWL_EXSTYLE) | WS_EX_NOACTIVATE );
 }
 
 bool WindowManager::IsAlwaysOnBottom() {
