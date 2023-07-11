@@ -831,12 +831,10 @@ bool WindowManager::IsAlwaysOnTop() {
 }
 
 void WindowManager::SetAlwaysOnTop(const flutter::EncodableMap& args) {
-  // bool isAlwaysOnTop =
-  //     std::get<bool>(args.at(flutter::EncodableValue("isAlwaysOnTop")));
-  // SetWindowPos(GetMainWindow(), isAlwaysOnTop ? HWND_TOPMOST : HWND_NOTOPMOST,
-  //              0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-  HWND mainWindow = GetMainWindow();
-  ::SetWindowLongPtr(mainWindow, GetWindowLong(mainWindow, GWL_STYLE), ::GetWindowLongPtr(mainWindow, GWL_EXSTYLE) | WS_EX_NOACTIVATE );
+  bool isAlwaysOnTop =
+      std::get<bool>(args.at(flutter::EncodableValue("isAlwaysOnTop")));
+  SetWindowPos(GetMainWindow(), isAlwaysOnTop ? HWND_TOPMOST : HWND_NOTOPMOST,
+               0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 }
 
 bool WindowManager::IsAlwaysOnBottom() {
@@ -1018,11 +1016,13 @@ void WindowManager::SetIgnoreMouseEvents(const flutter::EncodableMap& args) {
   HWND hwnd = GetMainWindow();
   LONG ex_style = ::GetWindowLong(hwnd, GWL_EXSTYLE);
   if (ignore)
-    ex_style |= (WS_EX_TRANSPARENT | WS_EX_LAYERED);
+    ex_style |= (WS_EX_NOACTIVATE);//(WS_EX_TRANSPARENT | WS_EX_LAYERED);
   else
-    ex_style &= ~(WS_EX_TRANSPARENT | WS_EX_LAYERED);
+    ex_style &= ~(WS_EX_NOACTIVATE);//~(WS_EX_TRANSPARENT | WS_EX_LAYERED);
 
   ::SetWindowLong(hwnd, GWL_EXSTYLE, ex_style);
+  // HWND mainWindow = GetMainWindow();
+  // ::SetWindowLongPtr(mainWindow, GetWindowLong(mainWindow, GWL_STYLE), ::GetWindowLongPtr(mainWindow, GWL_EXSTYLE) | WS_EX_NOACTIVATE );
 }
 
 void WindowManager::PopUpWindowMenu(const flutter::EncodableMap& args) {
