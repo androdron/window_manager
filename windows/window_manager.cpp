@@ -1016,9 +1016,9 @@ void WindowManager::SetIgnoreMouseEvents(const flutter::EncodableMap& args) {
   HWND hwnd = GetMainWindow();
   LONG ex_style = ::GetWindowLong(hwnd, GWL_EXSTYLE);
   if (ignore)
-    ex_style |= (WS_EX_NOACTIVATE | WS_EX_LAYERED);//(WS_EX_TRANSPARENT | WS_EX_LAYERED);
+    ex_style |= (WS_EX_NOACTIVATE);//(WS_EX_TRANSPARENT | WS_EX_LAYERED);
   else
-    ex_style &= ~(WS_EX_NOACTIVATE | WS_EX_LAYERED);//~(WS_EX_TRANSPARENT | WS_EX_LAYERED);
+    ex_style &= ~(WS_EX_NOACTIVATE);//~(WS_EX_TRANSPARENT | WS_EX_LAYERED);
 
   ::SetWindowLong(hwnd, GWL_EXSTYLE, ex_style);
   ::SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LWA_COLORKEY);
